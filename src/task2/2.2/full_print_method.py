@@ -2,7 +2,7 @@
 The is the way of implementation using
 """
 import os
-
+from tqdm import tqdm
 TIMES = {}
 
 def profile_func(func, store):
@@ -25,7 +25,7 @@ def profile_func(func, store):
         return value
     return function_timer
 
-def store_job(jid, db=None):
+def store_job(jid, bind_id, db=None):
     """
 
     """
@@ -46,7 +46,7 @@ def store_job(jid, db=None):
     output = sys.stdout.getvalue()
     sys.stdout = stdout
 
-    db.jobs.insert({"jid": jid, "string": output})
+    db.jobs.insert({"jid": bind_id, "string": output})
 
 def get_job(jid, db=None):
     """
@@ -105,7 +105,6 @@ def stress_test(iterations=1000, sleep=0):
             itr_time['get_job'] = (time.time() - itr_time['store_job']) - st
             itr_time['total_time'] = time.time() - st
             times.append(list(itr_time.values()))
-            assert db_job == job
             progress.update(1)
 
     import matplotlib.pyplot as plt
@@ -113,13 +112,23 @@ def stress_test(iterations=1000, sleep=0):
     plt.plot([i[0] for i in times], "-b", label="store_job")
     plt.plot([i[1] for i in times], "-r", label="get_job")
     plt.plot([i[2] for i in times], "-g", label="total_time")
-    plt.yticks(np.arange(0, np.max(times), step=0.1))
+    plt.yticks(np.arange(0, 1, step=0.1))
     plt.title("Mongo Bench")
     plt.legend(loc="best")
     plt.savefig(f'data/mongo-method-full_print-{iterations}-time_interval-{sleep}.png')
+    plt.clf()
+
+    plt.plot([i[0] for i in times[2:]], "-b", label="store_job")
+    plt.plot([i[1] for i in times[2:]], "-r", label="get_job")
+    plt.plot([i[2] for i in times[2:]], "-g", label="total_time")
+    plt.yticks(np.arange(0, 0.5, step=0.1))
+    plt.title("Mongo Bench")
+    plt.legend(loc="best")
+    plt.savefig(f'data/[modded]mongo-method-full_print-{iterations}-time_interval-{sleep}.png')
+
 
 # stress_test()
-stress_test(sleep=2)
+stress_test()
 
 
 """

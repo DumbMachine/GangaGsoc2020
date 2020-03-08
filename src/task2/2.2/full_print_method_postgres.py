@@ -3,6 +3,7 @@ The is the way of implementation using
 """
 import os
 import sqlalchemy
+from sqlalchemy import Binary, Column, ForeignKey, Integer, String, Table
 
 from tqdm import tqdm
 
@@ -29,7 +30,6 @@ def profile_func(func, store):
     return function_timer
 
 def create_table(con, meta):
-    from sqlalchemy import Binary, Column, ForeignKey, Integer, String, Table
     JOBS = Table(
         f"jobs", meta,
         Column("jid", Integer, primary_key=True),
@@ -43,7 +43,6 @@ def store_job(jid, bind_id, JOBS=None):
     """
 
     """
-    import sqlalchemy
 
     user, password, db, host, port = 'postgres', 'ganga', 'jobs', 'localhost', 5432
     url = 'postgresql://{}:{}@{}:{}/{}'
@@ -153,7 +152,6 @@ def stress_test(iterations=1000, sleep=0):
             itr_time['get_job'] = (time.time() - itr_time['store_job']) - st
             itr_time['total_time'] = time.time() - st
             times.append(list(itr_time.values()))
-            assert db_job == job
             progress.update(1)
 
 
@@ -167,4 +165,4 @@ def stress_test(iterations=1000, sleep=0):
     plt.legend(loc="best")
     plt.savefig(f'data/postgres-method-full_print-{iterations}-time_interval-{sleep}.png')
 # stress_test()
-stress_test(sleep=2)
+stress_test()

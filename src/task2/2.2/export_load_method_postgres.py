@@ -7,9 +7,10 @@ The is the way of implementation using
 import os
 import sys
 import time
+import sqlalchemy
 
 from tqdm import tqdm
-from pymongo import MongoClient
+from sqlalchemy import Binary, Column, ForeignKey, Integer, String, Table
 from GangaCore.GPIDev.Base.Proxy import isType, stripProxy
 from GangaCore.GPIDev.Lib.GangaList.GangaList import GangaList
 from GangaCore.GPIDev.Lib.Registry.RegistrySlice import RegistrySlice
@@ -17,7 +18,18 @@ from GangaCore.GPIDev.Lib.Registry.RegistrySliceProxy import RegistrySliceProxy
 from GangaCore.Utility.Runtime import getScriptPath, getSearchPath
 
 
-def store_job(jid, bind_id, db=None):
+def create_table(con, meta):
+    from sqlalchemy import Binary, Column, ForeignKey, Integer, String, Table
+    JOBS = Table(
+        f"jobs", meta,
+        Column("jid", Integer, primary_key=True),
+        Column("jstring", String),
+        extend_existing=True
+    )
+    meta.create_all(con)
+    return JOBS
+
+def store_job(jid, bind_id, JOBS=None):
     """
 
     """
@@ -81,13 +93,29 @@ def store_job(jid, bind_id, db=None):
 
         return outFile.string
 
-    if db is None:
-        client = MongoClient('localhost', 27017)
-        db = client.ganga_export_load
+
+    user, password, db, host, port = 'postgres', 'ganga', 'jobs', 'localhost', 5432
+    url = 'postgresql://{}:{}@{}:{}/{}'
+    url = url.format(user, password, host, port, db)
+
+    try:
+        con = sqlalchemy.create_engine(url, client_encoding='utf8',  executemany_mode='batch')
+        meta = sqlalchemy.MetaData(bind=con, reflect=True)
+    except Exception as e:
+        if "does not exist" in str(e):
+            url = 'postgresql://{}:{}@{}:{}/template1'
+            url = url.format(user, password, host, port)
+            con = sqlalchemy.create_engine(url, client_encoding='utf8')
+            meta = sqlalchemy.MetaData(bind=con, reflect=True)
+        else:
+            raise e
+
+    if JOBS is None:
+        JOBS = create_table(con, meta)
 
     string_rep = custom_export(jobs[jid])
 
-    db.jobs.insert({"jid": bind_id, "string": string_rep})
+    con.execute(JOBS.insert(), {"jid": bind_id, "jstring": string_rep})
 
 def get_job(jid, db=None):
     """
@@ -118,11 +146,28 @@ def get_job(jid, db=None):
 
         return objectList[0]
 
-    if db is None:
-        client = MongoClient('localhost', 27017)
-        db = client.ganga_export_load
+    user, password, db, host, port = 'postgres', 'ganga', 'jobs', 'localhost', 5432
+    url = 'postgresql://{}:{}@{}:{}/{}'
+    url = url.format(user, password, host, port, db)
 
-    return [custom_load(item['string']) for item in db.jobs.find({"jid": jid})]
+    try:
+        con = sqlalchemy.create_engine(url, client_encoding='utf8',  executemany_mode='batch')
+        meta = sqlalchemy.MetaData(bind=con, reflect=True)
+    except Exception as e:
+        if "does not exist" in str(e):
+            url = 'postgresql://{}:{}@{}:{}/template1'
+            url = url.format(user, password, host, port)
+            con = sqlalchemy.create_engine(url, client_encoding='utf8')
+            meta = sqlalchemy.MetaData(bind=con, reflect=True)
+        else:
+            raise e
+
+
+    rows = [*con.execute(f"""
+        SELECT * from jobs
+        WHERE jid = {jid}
+    """)]
+    return [custom_load(item['jstring'].strip()) for item in rows]
 
 
 
@@ -184,8 +229,8 @@ def stress_test(iterations=1000, sleep=0):
     plt.plot([i[1] for i in times], "-r", label="get_job")
     plt.plot([i[2] for i in times], "-g", label="total_time")
     plt.yticks(np.arange(0, np.max(times), step=0.1))
-    plt.title("Mongo Bench")
+    plt.title("Postgres Bench")
     plt.legend(loc="best")
-    plt.savefig(f'data/mongo-method-export-{iterations}-time_interval-{sleep}.png')
+    plt.savefig(f'data/postgres-method-export-{iterations}-time_interval-{sleep}.png')
 stress_test()
 # stress_test(sleep=2)
