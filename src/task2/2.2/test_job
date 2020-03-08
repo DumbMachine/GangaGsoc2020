@@ -1,0 +1,105 @@
+#Ganga# File created by Ganga - Mon Mar  9 02:04:44 2020
+#Ganga#
+#Ganga# Object properties may be freely edited before reloading into Ganga
+#Ganga#
+#Ganga# Lines beginning #Ganga# are used to divide object definitions,
+#Ganga# and must not be deleted
+
+#Ganga# Job object (category: jobs)
+ Job (
+   comment = '',
+   name = '',
+   do_auto_resubmit = False,
+   parallel_submit = True,
+   inputsandbox =[],
+   info =   JobInfo (
+     monitor =None
+   ),
+   application =   Executable (
+     exe = File(name='count-word.sh',subdir='.'),
+     args = ['page0.pdf', 'page1.pdf', 'page2.pdf', 'page3.pdf', 'page4.pdf', 'page5.pdf', 'page6.pdf', 'page7.pdf', 'page8.pdf', 'page9.pdf', 'page10.pdf', 'page11.pdf'],
+     env = {},
+     platform = 'ANY',
+     is_prepared = ShareDir(name='conf-779aac10-966e-47aa-8b59-5455e98dc9da',subdir='.'),
+     hash = '3ee875b5e35c98a78ffdc9b49f0bfd05'
+   ),
+   backend =   Local (
+     nice = 0,
+     force_parallel = False
+   ),
+   inputfiles =[    
+     LocalFile (
+       namePattern = 'page0.pdf',
+       localDir = '',
+       compressed = False
+     ),    
+     LocalFile (
+       namePattern = 'page1.pdf',
+       localDir = '',
+       compressed = False
+     ),    
+     LocalFile (
+       namePattern = 'page2.pdf',
+       localDir = '',
+       compressed = False
+     ),    
+     LocalFile (
+       namePattern = 'page3.pdf',
+       localDir = '',
+       compressed = False
+     ),    
+     LocalFile (
+       namePattern = 'page4.pdf',
+       localDir = '',
+       compressed = False
+     ),    
+     LocalFile (
+       namePattern = 'page5.pdf',
+       localDir = '',
+       compressed = False
+     ),    
+     LocalFile (
+       namePattern = 'page6.pdf',
+       localDir = '',
+       compressed = False
+     ),    
+     LocalFile (
+       namePattern = 'page7.pdf',
+       localDir = '',
+       compressed = False
+     ),    
+     LocalFile (
+       namePattern = 'page8.pdf',
+       localDir = '',
+       compressed = False
+     ),    
+     LocalFile (
+       namePattern = 'page9.pdf',
+       localDir = '',
+       compressed = False
+     ),    
+     LocalFile (
+       namePattern = 'page10.pdf',
+       localDir = '',
+       compressed = False
+     ),    
+     LocalFile (
+       namePattern = 'page11.pdf',
+       localDir = '',
+       compressed = False
+     ),],
+   outputfiles =[    
+     LocalFile (
+       namePattern = 'result.txt',
+       localDir = '',
+       compressed = False
+     ),],
+   inputdata =None,
+   splitter =   ArgSplitter (
+     args = [['page0.pdf'], ['page1.pdf'], ['page2.pdf'], ['page3.pdf'], ['page4.pdf'], ['page5.pdf'], ['page6.pdf'], ['page7.pdf'], ['page8.pdf'], ['page9.pdf'], ['page10.pdf'], ['page11.pdf']]
+   ),
+   postprocessors =   MultiPostProcessor (
+   ),
+   virtualization =None
+ )
+
