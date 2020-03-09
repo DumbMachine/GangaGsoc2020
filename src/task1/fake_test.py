@@ -1,6 +1,11 @@
+"""
+Make shift testing the task1 script
+"""
 
 import os
-
+import time
+import io
+import sys
 #starts new job
 job = Job()
 #specifies executable to run on Grid
@@ -21,6 +26,29 @@ job.inputfiles = filelist
 job.backend = "Local"
 job.postprocessors = CustomMerger(module="./custom.py", files=['result.txt'])
 job.submit()
+
+time.sleep(5)
+
+while True:
+    print(job.status)
+    if job.status == "completed":
+
+        stdout = sys.stdout
+        sys.stdout = io.StringIO()
+
+        job.peek("result.txt", "more") 
+
+        # get output and restore sys.stdout
+        output = sys.stdout.getvalue()
+        sys.stdout = stdout
+
+        assert "399" in output
+        print("OK")
+        break
+    elif job.status == "failed":
+        assert False
+        print("NOt OK")
+        break
 
 """
 from GangaCore.GPIDev.Lib.Job import Job
