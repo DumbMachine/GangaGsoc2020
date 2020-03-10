@@ -1,8 +1,46 @@
 This file has explanations and implementation details for many things.
 
-Let starts with task1.
+## 1. Task1:
 
+Let starts with task1. This asks us to write a ganga jobs to count the number of 'the' in a multi page pdf.
 
+My approach for this was:
+
+- I ran a script, `split-pdf.py`, to get all the separate pages from the multi page pdf.
+
+- Using the `ArgSplitter` Class I split the job of counting the number of **the** to multiple subjobs.
+
+  ```python
+  # Creating a new job object
+  job = Job()
+  
+  #specifies executable to run on Grid
+  job.application = Executable()
+  job.application.exe = File("count-word.sh")
+  
+  #specifies pagewise arguments to the executable, these are arugments are used to split the job into subjobs
+  args = [["page0.pdf"],["page1.pdf"],["page2.pdf"],["page3.pdf"],["page4.pdf"],["page5.pdf"],["page6.pdf"],["page7.pdf"],["page8.pdf"],["page9.pdf"],["page10.pdf"],["page11.pdf"]]
+  
+  #splits the job
+  splitter = ArgSplitter(args=args)
+  job.outputfiles = [LocalFile("result.txt")]
+  
+  filelist = []
+  for i in range(len(args)):
+  	filename = args[i][0]
+  	filelist.append(filename)
+  job.application.args = filelist
+  job.splitter = splitter
+  job.inputfiles = filelist
+  job.backend = "Local"
+  
+  # Using the CustomMerger to merge the 'the' counts from each subjob
+  job.postprocessors = CustomMerger(module="./custom.py", files=['result.txt'])
+  job.submit()
+  
+  ```
+
+  
 
 ## 2. Task2:
 
@@ -52,7 +90,7 @@ I have implemented 3 methods here:
 
   This will return the output of `full_print` for the particular job. But this isn't useful, in the real world, as AFAIK it cannot be used to make the `Ganga Job` object.
 
-  ![image-20200309060808691](/home/needshelp/code/gsoc/GangaGSoC2020/src/Project.assets/image-20200309060808691.png)![image-20200309060756799](/home/needshelp/code/gsoc/GangaGSoC2020/src/Project.assets/image-20200309060756799.png)
+  ![image-20200309060808691](assets/image-20200309060808691.png)![image-20200309060756799](assets/image-20200309060756799.png)
 
 	#### 2.1.2: `export/load` method:
 
@@ -76,7 +114,7 @@ I have implemented 3 methods here:
 
 - `custom_load` function is used to do the same thing `load`, while `load` works for file-like objects `custom_load` works on strings and converts the string to `Ganga Job`.
 
-  ![image-20200309054605253](/home/needshelp/code/gsoc/GangaGSoC2020/src/Project.assets/image-20200309054605253.png)![image-20200309060217344](/home/needshelp/code/gsoc/GangaGSoC2020/src/Project.assets/image-20200309060217344.png)
+  ![image-20200309210916530](assets/image-20200309210916530.png)
 
   This method is far superior to `full_print` as we can obtain the string representation of the jobs and convert the job string back to the job object.
 
@@ -84,4 +122,4 @@ I have implemented 3 methods here:
 
 ​	The story this is also the same, I tweaked the default implementation to suit the task at hand, conversion of job to string also avoid the overhead of creation of new files.
 
-###### ![image-20200309053745172](/home/needshelp/code/gsoc/GangaGSoC2020/src/Project.assets/image-20200309053745172.png)![image-20200309053909021](/home/needshelp/code/gsoc/GangaGSoC2020/src/Project.assets/image-20200309053909021.png)
+![image-20200309205733131](assets/image-20200309205733131.png)

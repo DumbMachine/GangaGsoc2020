@@ -1,3 +1,13 @@
+NOTE: If you wanna test that all the code is working, I recommend you to run the following:
+
+```bash
+$ start the necessary docker containers
+$ cd tests
+$ pytest test_task1.py test_job.py
+```
+
+This will run all the tests and ensure everything is working fine.
+
 # Ganga persistent storage task
 
 
@@ -16,7 +26,7 @@
 
     The output would look like:
 
-    ![image-20200309203812990](Readme.assets/image-20200309203812990.png)
+    ![image-20200309203812990](assets/image-20200309203812990.png)
 
 2. Now take the Ganga Job object created in the first exercise and store this as a simple blob in the database. You might find the functions export and load that is available at the Ganga prompt useful. You can either use a file as an in-between point or you can look at how the export and load functions are implemented. You can find the code in https://github.com/ganga-devs/ganga/blob/develop/ganga/GangaCore/GPIDev/Persistency/__init__.py. Demonstrate that you can read the blob back and re-create a job object.
 
@@ -26,7 +36,7 @@
     
     `ganga read_write_job.py`.
     
-    ![image-20200309204101316](Readme.assets/image-20200309204101316.png)
+    ![image-20200309204101316](assets/image-20200309204101316.png)
     
 3. Measure the performance of reading the blob from the database and  re-create the job object a thousand times. Measure the time spent reading the blob from the database separately from the time it takes to  recreate the job objects. The emphasis should be on that you can measure the times not on optimizing how fast it is.
 

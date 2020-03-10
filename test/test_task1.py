@@ -6,10 +6,9 @@ import subprocess
 
 from glob import glob
 
-sys.path.insert(0, "../src/task1/")
-sys.path.insert(0, "../src/task2/")
 
 def test_split_pdfs():
+    sys.path.insert(0, "../src/task1/")
     if "CERN.pdf" in os.listdir("../src/task1/"):
         from split_pdf import splitpdf
         splitpdf("../src/task1/CERN.pdf")
@@ -33,6 +32,7 @@ def test_reading_thes():
         assert False
 
 def test_mergefiles():
+    sys.path.insert(0, "../src/task1/")
     from custom import mergefiles
     # creating tem files:
     filelist = ['1.txt', '2.txt', '3.txt']
@@ -49,18 +49,3 @@ def test_mergefiles():
     # cleaning up
     for file in filelist + [outfile]:
         os.remove(file)
-
-# def test_ganga_job():
-#     import ganga
-#     from GangaCore.GPIDev.Lib.Job import Job
-
-#     # from GangaCore.GPI import Job, Executable, Local, File, LocalFile
-
-
-#     j = Job()
-#     j.submit()
-#     time.sleep(2)
-#     if j.status == "completed":
-#         assert True
-#     else:
-#         assert False

@@ -1,13 +1,14 @@
 import os
 import time
 import ganga
+from glob import glob
 from fixtures import *
 from GangaCore.GPIDev.Base.Proxy import stripProxy, isType
 
 from GangaCore.testlib.monitoring import run_until_completed
 
 
-def test_job_create(gpi):
+def test_job_custom(gpi):
     os.chdir("../src/task1/")
     job = gpi.Job()
     #specifies executable to run on Grid
@@ -29,4 +30,6 @@ def test_job_create(gpi):
     job.postprocessors = gpi.CustomMerger(module="custom.py", files=['result.txt'])
     job.submit()
 
-    job.peek("result.txt", "more")
+    run_until_completed(job)
+
+    assert open(os.path.join(job.outputdir, "result.txt"), "r").read().split() == ['399', '#', 'Custom', 'Merger', 'Success', '#']

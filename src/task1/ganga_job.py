@@ -19,7 +19,7 @@ job.application.args = filelist
 job.splitter = splitter
 job.inputfiles = filelist
 job.backend = "Local"
-job.postprocessors = CustomMerger(module="custom.py", files=['result.txt'])
+job.postprocessors = CustomMerger(module="./custom.py", files=['result.txt'])
 job.submit()
 
 """
