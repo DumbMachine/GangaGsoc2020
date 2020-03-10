@@ -1,4 +1,5 @@
 import os
+import time
 import ganga
 from fixtures import *
 from GangaCore.GPIDev.Base.Proxy import stripProxy, isType
@@ -27,3 +28,5 @@ def test_job_create(gpi):
     job.backend = "Local"
     job.postprocessors = gpi.CustomMerger(module="custom.py", files=['result.txt'])
     job.submit()
+
+    job.peek("result.txt", "more")

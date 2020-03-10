@@ -106,7 +106,7 @@ def stress_test(iterations=1000, sleep=0):
     plt.ylabel("time(seconds)")
     plt.legend(loc="best")
     fig = matplotlib.pyplot.gcf()
-    fig.set_size_inches(18.5, 10.5)
+    fig.set_size_inches(8,8)
     plt.savefig(f'data/mongo-method-xml -{iterations}-time_interval-{sleep}.png', dpi=100)
 # stress_test()
 stress_test()

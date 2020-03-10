@@ -4,9 +4,9 @@
 1. Demonstrate that you can create a simple database where the server runs on the local machine. Demonstrate that you can read/write to the database from within python. The database backend has to be an open source solution but otherwise the choice of technology is up to you. Make sure to provide instructions on how to set up the database.
 
     **Solution**: To demonstrate the creation and usage (r/w) of database, make sure you have the following:
-        1. `docker` installed on your system.
+           1. `docker` installed on your system.
         2. `pymongo` python package. (`pip install pymongo`).
-        3. ~~`singularity` installed on your system.~~
+        3. `singularity` installed on your system. (`this is optional, having docker would do the same`)
 
     Run the following:
     ```bash
@@ -14,15 +14,21 @@
     $ bash task.sh
     ```
 
+    The output would look like:
+
+    ![image-20200309203812990](Readme.assets/image-20200309203812990.png)
+
 2. Now take the Ganga Job object created in the first exercise and store this as a simple blob in the database. You might find the functions export and load that is available at the Ganga prompt useful. You can either use a file as an in-between point or you can look at how the export and load functions are implemented. You can find the code in https://github.com/ganga-devs/ganga/blob/develop/ganga/GangaCore/GPIDev/Persistency/__init__.py. Demonstrate that you can read the blob back and re-create a job object.
 
-    **Solution**: I have mentioned details about the implementation below. To display my ability to read the blob back and re-create a job object, refer to this `.py` file [link].
+    **Solution**: I have mentioned details about the implementation below. To display my ability to read the blob back and re-create a job object, refer to this `task2/2.2/read_write_job.py`.
     
-    Here I have attached screenshots from running the script by `ganga read_write_job.py`.
+    Here I have attached screenshot from running the script by 
     
-    ![image-20200309034950773](/home/needshelp/code/gsoc/GangaGSoC2020/src/task2/Readme.assets/image-20200309034950773.png)
+    `ganga read_write_job.py`.
     
-3. Measure the performance of reading the blob from the database and  re-create the job object a thousand times. Measure the time spent  reading the blob from the database separately from the time it takes to  recreate the job objects. The emphasis should be on that you can measure the times not on optimising how fast it is.
+    ![image-20200309204101316](Readme.assets/image-20200309204101316.png)
+    
+3. Measure the performance of reading the blob from the database and  re-create the job object a thousand times. Measure the time spent reading the blob from the database separately from the time it takes to  recreate the job objects. The emphasis should be on that you can measure the times not on optimizing how fast it is.
 
     **Solution**: I have used 3 methods here:
 
@@ -77,6 +83,6 @@
         % bash xml_way.sh
         ```
 
-This file is already long, I have attached most of the images, plots and other explanation in the Project.md
+This file is already long, I have attached some of the images, plots and other explanation to Project.md
 
  

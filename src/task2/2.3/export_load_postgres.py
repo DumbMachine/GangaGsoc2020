@@ -233,7 +233,7 @@ def stress_test(iterations=1000, sleep=0):
     plt.title("Postgres Bench")
     plt.legend(loc="best")
     fig = matplotlib.pyplot.gcf()
-    fig.set_size_inches(18.5, 10.5)
+    fig.set_size_inches(8,8)
     plt.savefig(f'data/postgres-method-export-{iterations}-time_interval-{sleep}.png')
 stress_test()
 # stress_test(sleep=2)

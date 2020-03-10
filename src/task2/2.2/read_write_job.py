@@ -104,4 +104,6 @@ job = jobs[-1]
 string_rep = custom_export(job=job)
 job_from_string_rep = custom_load(string_rep=string_rep)
 assert  job == job_from_string_rep
+print("==================================================")
 print("Asertion was successful")
+print("==================================================")

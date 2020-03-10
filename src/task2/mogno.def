@@ -1,0 +1,12 @@
+BootStrap: library
+From: alpine
+
+%post
+	apk add --no-cache mongodb
+	mkdir ../data ../data/db
+
+%runscript
+    mongod
+
+%labels
+    Author dumbmachine

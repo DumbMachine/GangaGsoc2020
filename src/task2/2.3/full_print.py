@@ -117,7 +117,7 @@ def stress_test(iterations=1000, sleep=0):
     plt.title("Mongo Bench")
     plt.legend(loc="best")
     fig = matplotlib.pyplot.gcf()
-    fig.set_size_inches(18.5, 10.5)
+    fig.set_size_inches(8,8)
     plt.savefig(f'data/mongo-method-full_print-{iterations}-time_interval-{sleep}.png')
     plt.clf()
 
@@ -129,7 +129,7 @@ def stress_test(iterations=1000, sleep=0):
     plt.title("Mongo Bench")
     plt.legend(loc="best")
     fig = matplotlib.pyplot.gcf()
-    fig.set_size_inches(18.5, 10.5)
+    fig.set_size_inches(8,8)
     plt.savefig(f'data/[modded]mongo-method-full_print-{iterations}-time_interval-{sleep}.png', dpi=100)
 
 
