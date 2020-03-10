@@ -1,12 +1,16 @@
 NOTE: If you wanna test that all the code is working, I recommend you to run the following:
 
 ```bash
-$ start the necessary docker containers
+# Starting necessary docker containers
+$ sudo docker ps -q --filter "name=mongo" | grep -q . && sudo docker stop mongo && docker rm -fv mongo
+$ sudo docker run --name mongo -p 27017:27017 -d mongo
 $ cd tests
-$ pytest test_task1.py test_job.py
+$ pytest test_task1.py test_job.py test_task2.py
 ```
 
-This will run all the tests and ensure everything is working fine.
+This will run all the tests and ensure everything is working fine. Output would look something like:
+
+![image-20200310114012690](assets/image-20200310114012690.png)
 
 # Ganga persistent storage task
 

@@ -1,3 +1,7 @@
+Note: 
+- For instructions on how to run tests or functions refer : [readme.md](Readme.md).
+- For implementation details refer: [Project.md](Project.md)
+
 # Challenge for Ganga projects in GSoC 2020
 
 The challenge that forms part of the Ganga projects in GSoC is divided up into three pieces.
