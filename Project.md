@@ -90,7 +90,7 @@ I have implemented 3 methods here:
 
   This will return the output of `full_print` for the particular job. But this isn't useful, in the real world, as AFAIK it cannot be used to make the `Ganga Job` object.
 
-  ![image-20200309060808691](assets/image-20200309060808691.png)![image-20200309060756799](assets/image-20200309060756799.png)
+  ![image-20200310115534272](assets/image-20200310115534272.png)
 
 	#### 2.1.2: `export/load` method:
 

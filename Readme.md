@@ -19,8 +19,8 @@ This will run all the tests and ensure everything is working fine. Output would 
 
     **Solution**: To demonstrate the creation and usage (r/w) of database, make sure you have the following:
            1. `docker` installed on your system.
-        2. `pymongo` python package. (`pip install pymongo`).
-        3. `singularity` installed on your system. (`this is optional, having docker would do the same`)
+            2. `pymongo` python package. (`pip install pymongo`).
+            3. `singularity` installed on your system. (`this is optional, having docker would do the same`)
 
     Run the following:
     ```bash
