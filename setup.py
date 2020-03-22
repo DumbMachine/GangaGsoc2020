@@ -36,7 +36,8 @@ setup(
           'ganga',
           'PyPDF2',
           'pymongo',
-        #   'alchemy'
+          'sqlalchemy',
+          'tqdm'
       ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',

@@ -1,0 +1,168 @@
+<root>
+ <class name="Job" version="1.6" category="jobs">
+    <attribute name="outputsandbox"> 
+       <sequence>
+       </sequence>
+    </attribute>
+    <attribute name="comment"> 
+        <value>''</value>
+    </attribute>
+    <attribute name="id"> 
+        <value>9</value>
+    </attribute>
+    <attribute name="status"> 
+        <value>'completed'</value>
+    </attribute>
+    <attribute name="name"> 
+        <value>''</value>
+    </attribute>
+    <attribute name="do_auto_resubmit"> 
+        <value>False</value>
+    </attribute>
+    <attribute name="inputsandbox">
+       <sequence>
+       </sequence>
+    </attribute>
+    <attribute name="info">
+          <class name="JobInfo" version="0.1" category="jobinfos">
+             <attribute name="submit_counter"> 
+                 <value>1</value>
+             </attribute>
+             <attribute name="uuid"> 
+                 <value>''</value>
+             </attribute>
+             <attribute name="monitoring_links"> 
+                <sequence>
+                </sequence>
+             </attribute>
+             <attribute name="monitor">
+                <value>None</value>
+             </attribute>
+          </class>
+    </attribute>
+    <attribute name="time">
+          <class name="JobTime" version="0.0" category="jobtime">
+             <attribute name="timestamps"> 
+                 <value>{'new': datetime.datetime(2020, 3, 18, 7, 53, 55, 676539), 'submitting': datetime.datetime(2020, 3, 18, 7, 53, 58, 304459), 'submitted': datetime.datetime(2020, 3, 18, 7, 53, 58, 594405), 'backend_running': datetime.datetime(2020, 3, 18, 7, 53, 58), 'running': datetime.datetime(2020, 3, 18, 7, 53, 58, 910355), 'backend_final': datetime.datetime(2020, 3, 18, 7, 53, 59), 'final': datetime.datetime(2020, 3, 18, 7, 54, 0, 923623)}</value>
+             </attribute>
+          </class>
+    </attribute>
+    <attribute name="application">
+          <class name="Executable" version="2.0" category="applications">
+             <attribute name="exe"> 
+                 <value>'echo'</value>
+             </attribute>
+             <attribute name="args"> 
+                <sequence>
+                   <value>'Hello World'</value>
+                </sequence>
+             </attribute>
+             <attribute name="env"> 
+                 <value>{}</value>
+             </attribute>
+             <attribute name="platform"> 
+                 <value>'ANY'</value>
+             </attribute>
+             <attribute name="is_prepared"> 
+                      <class name="ShareDir" version="1.0" category="shareddirs">
+                         <attribute name="name"> 
+                             <value>'conf-5731ccab-88d2-49b9-90f0-88856b434bd1'</value>
+                         </attribute>
+                         <attribute name="subdir"> 
+                             <value>'.'</value>
+                         </attribute>
+                         <attribute name="associated_files">
+                               <class name="GangaList" version="1.0" category="internal">
+                                  <attribute name="_list">
+                                     <sequence>
+                                     </sequence>
+                                  </attribute>
+                                  <attribute name="_is_preparable"> 
+                                      <value>False</value>
+                                  </attribute>
+                               </class>
+                         </attribute>
+                      </class>
+             </attribute>
+             <attribute name="hash"> 
+                 <value>'cfa689697ba25ae38f7a47b232ea3e7c'</value>
+             </attribute>
+          </class>
+    </attribute>
+    <attribute name="backend">
+          <class name="Local" version="1.2" category="backends">
+             <attribute name="id"> 
+                 <value>12025</value>
+             </attribute>
+             <attribute name="status"> 
+                 <value>None</value>
+             </attribute>
+             <attribute name="exitcode"> 
+                 <value>0</value>
+             </attribute>
+             <attribute name="workdir"> 
+                 <value>'/tmp/tmphmpcw7r8'</value>
+             </attribute>
+             <attribute name="actualCE"> 
+                 <value>'dumbmachine'</value>
+             </attribute>
+             <attribute name="wrapper_pid"> 
+                 <value>12014</value>
+             </attribute>
+             <attribute name="nice"> 
+                 <value>0</value>
+             </attribute>
+             <attribute name="force_parallel"> 
+                 <value>False</value>
+             </attribute>
+          </class>
+    </attribute>
+    <attribute name="inputfiles">
+       <sequence>
+       </sequence>
+    </attribute>
+    <attribute name="outputfiles">
+       <sequence>
+       </sequence>
+    </attribute>
+    <attribute name="non_copyable_outputfiles">
+       <sequence>
+       </sequence>
+    </attribute>
+    <attribute name="inputdata">
+       <value>None</value>
+    </attribute>
+    <attribute name="outputdata">
+       <value>None</value>
+    </attribute>
+    <attribute name="splitter">
+       <value>None</value>
+    </attribute>
+    <attribute name="subjobs">
+       <sequence>
+       </sequence>
+    </attribute>
+    <attribute name="postprocessors">
+          <class name="MultiPostProcessor" version="1.0" category="postprocessor">
+             <attribute name="process_objects">
+                <sequence>
+                </sequence>
+             </attribute>
+          </class>
+    </attribute>
+    <attribute name="virtualization">
+       <value>None</value>
+    </attribute>
+    <attribute name="merger">
+       <value>None</value>
+    </attribute>
+    <attribute name="metadata">
+          <class name="MetadataDict" version="1.0" category="metadata">
+             <attribute name="data"> 
+                 <value>{}</value>
+             </attribute>
+          </class>
+    </attribute>
+ </class>
+</root>
+

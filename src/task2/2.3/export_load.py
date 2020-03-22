@@ -174,7 +174,7 @@ def stress_test(iterations=1000, sleep=0):
             itr_time['get_job'] = (time.time() - itr_time['store_job']) - st
             itr_time['total_time'] = time.time() - st
             times.append(list(itr_time.values()))
-            assert db_job == job
+# assert db_job == job
             progress.update(1)
 
 
@@ -185,7 +185,9 @@ def stress_test(iterations=1000, sleep=0):
     plt.plot([i[1] for i in times], "-r", label="get_job")
     plt.plot([i[2] for i in times], "-g", label="total_time")
     plt.yticks(np.arange(0, np.max(times), step=0.05))
-    plt.title("Mongo Bench")
+    plt.title("Export/Load Method")
+    plt.xlabel("iteration")
+    plt.ylabel("time (in seconds)")
     plt.legend(loc="best")
     fig = matplotlib.pyplot.gcf()
     fig.set_size_inches(8,8)

@@ -1,0 +1,287 @@
+Project Proposal 
+Google Summer of Code 2020
+Upgrading the Ganga user interface to use a relational database for persistent storage
+
+CERN-HSF
+Mentors:
+Ulrik Egede
+Alex Richards
+Mark Smith
+Ratin Kumar
+Email: ratin.kumar.2k@gmail.c om
+Phone: +91-9896225424
+Index
+Introduction
+Synopsis
+Project Goals
+Implementation Details
+Deliverables
+Timeline
+Working Schedule
+References
+Introduction
+Personal Information
+Full Name
+Ratin Kumar
+Institute
+2nd Year 
+B.Tech Student Computer Engineering
+National Institute of Technology Kurukshetra
+Email
+ratin.kumar.2k@gmail.com
+ratin_11822004@nitkkr.ac.in
+Phone
++91-9896225424
+Blog
+https://medium.com/@ratin.kumar.2k
+Github
+https://github.com/DumbMachine
+Skype
+Ratin Kumar
+Timezone
+Indian Standard Time (GMT +0530)
+Address
+208, Hostel-6, 
+National Institute of Technology Kurukshetra,
+Haryana, India -136119
+
+About Me
+I am Ratin Kumar, a 2nd year undergraduate Computer Engineering student at National Institute of Technology Kurukshetra. I have experience in programming with multiple languages such as Python, C/C++, Java, JavaScript, with Python being my favorite. My major interests lie in the field of machine learning. My most significant work to date is a machine learning algorithm that extracts key frames from long videos and uses object locations from each key frame as a means to search frames from a database of videos. A research paper detailing the specifics of this approach will be released soon. Project Autonate is a tool I have been working on which will provide the world with an open source solution that helps bring automation to the mundane task of data annotation by actively learning from annotated data.
+Besides programming, road cycling and stalking stocks are the hobbies that take up most of my time.
+Why GSoC with CERN-HSF?
+I have always been passionate about projects which link sciences with programming and this is the main inspiration for me to work with CERN. The idea of getting a chance to help scientists, who are influencing the future, really excites me and also aligns with my ambition to help humanity with the help of science and code.
+Being able to analyze and perform operations on data is very important for it to be consumable and understandable. Thus being a part of Ganga and helping to increase the speed and optimize the operations would be really great.
+Preparation I have done:
+Completed the qualification task. The code resides here (I'm aware that this link is currently private, I plan to make the repository public before deadline)
+I have run extensive tests to help me understand the project better and determine best techniques. For more information about it, refer to this repository (I plan to make a edit readme file with details about my experiments and their outcomes/conclusions)
+
+Synopsis:
+In experiments like LHC(Large Hadron Collider), a very large amount of data (in order of petabytes) is generated. This huge amount of data is then processed using a collection of powerful computers at multiple computing sites by distributing the data in small chunks and processing them individually at remote distributed computing networks and then finally collecting the result. These multiple sites are interconnected by a grid. These types of Grids can be accessed by a toolkit called Ganga.
+Ganga is an open source iPython based interface tool to the computing grid which leverages the power of distributed computing grid and provide scientists an interface supported by a powerful backend where they can submit their computation intensive programs to Ganga as a batch job. After submitting the job, Ganga processes the program somewhere on the grid, it keeps track of status of the job and after completion of job it gives back output to the user. It can also provide job statistics and job errors, if any.
+The aim will be to create a new model, using a database system, that can serve as the persistent system for Ganga. It will support caching. This project seeks to build a persistent storage model that will scale well to the use cases within science over the coming decade. A more responsive user interface that can transfer information to and from the persistent storage in a faster and more efficient way. A caching in memory that will allow Ganga to keep a fixed size in memory.
+Singularity containers are the docker container counterparts in the world of High performance computing. These will help in hosting the database and caching system without having the hassle of setting up a local environment for it.
+Benefits to Community
+This project will replace the old xml-based metadata system with a database, which will be assisted by a caching server that  will allow for a more responsive user interface. The containerized database will also allow for remote access to job metadata, provided the user has access to the host of the container. The project will enhance the process of large scale computing of batch jobs at CERN and other similar organizations.
+Implementation Details
+(Work in progress)
+This section is divided into 3 parts, respectively dealing with the following:
+Conversion of ganga Jobs to formats allowing for storage in a database.
+Usage of singularity containers to host database instances.
+Monitoring service for singularity containers.
+
+Conversion of ganga Jobs to formats allowing for storage in a database.
+Currently ganga supports two methods of getting a string or file stream to convert to ganga job object:
+
+export/load method: This method convert a file stream containing string representation of ganga schema to a ganga job object (GangaCore.GPIDev.Base.Proxy.Job) 
+This method makes use of the functions:
+
+export
+load
+
+	An example of the file created using this method can be found here.
+
+           The advantages of this method are that:
+
+ This representation of `Job` makes it very easy for a user to understand.
+
+This representation of `Job` takes up less space when compared to that taken up by xml method.
+		
+
+The disadvantage of this method is that:
+
+It is very slow. On average this method took 0.029319047927856445 seconds to convert to ganga job from Qualification Task 2. This is nearly 200% more than that taken by xml method.  
+
+xml (to_file/from_file) method: This method takes in a file stream consisting of job schema information in the form of xml. Implementation works by using a xml parser to iterate through all the attributes and assigning the appropriate attribute from the xml to the schema of an `EmptyGangaObject`. This method, though faster, is fragile and very specific.
+This method makes use of the functions:
+
+to_file
+from_file
+
+	An example of the file created using this method can be found here.
+
+           The advantages of this method are that:
+
+This representation of Job allows for really fast conversion to/from Job object. On average this method took 0.00010609626770019531 seconds to convert to ganga job from Qualification Task 2. 
+
+The disadvantage of this method is that:
+
+This method doesn't produce a job representation that is easily ingestible by humans.
+This method takes up alot of space on the local stage. 
+
+
+
+
+Json Method
+This is a prospective solution that aims to use the best of both worlds:
+json allows storing of jobs in a way which allows humans to understand better and if needed use in external applications.
+json objects by default take up less space than `xml` documents and also have great compressibility. Databases have inbuilt compression which will be beneficial here. 
+
+json representation will allow users to search for ganga jobs from the repository by making use of schema fields. Consider the following example:
+>>> jobs.search({
+    "name": "CaculusSolverROOT",
+    "comment": "additional fields can use to match objects"
+})
+          This will request for jobs that have the matching fields in their `schema` can easily served by directly searching in the database with the required fields:
+	>>> db.jobs.find({                # db is a mongo database and job is the document name
+    "name": "CaculusSolverROOT",
+    "comment": "additional fields can use to match objects"
+})
+
+Once the GUI for ganga has been introduced ( considering the project, it’ll be soon ), json and GUI will open doors to a much interactive and response ganga experience. 
+
+An example of a file created by the proposed method can be found here.
+For conversion back to a ganga job, this method will use an algorithm similar to the one used currently by xml method. It will follow similar steps:
+Initialize an EmptyGangaObject.
+Parse the json to get schema fields for each attribute.
+Assign respective fields to the schema of the EmptyGangaObject.
+
+Initially I plan to spend more time to benchmark methods for converting ganga Jobs to string representations and vice versa.
+
+
+Usage of singularity containers to host database instances.
+Replacing the current system with a database based one implies introduction of new dependencies:
+A database and Cache system.
+A Python package, database and cache driver components.
+To ease the process of installation, we will be using container based implementation. Since most systems already have singularity, installation/maintenance of databases and cache systems becomes easy. In cases of a single user running multiple instances of ganga, a single container running the database would mean that all the requests are handled as each ganga instance would communicate with the same database instance.
+
+Singularity containers don’t isolate network connections, this implies proper fallback must be inplace in cases where the ports used by the database and cache system are already in use. This will be tackled for by adding the appropriate entries in the ~/.gangarc:
+#=======================================================================
+##  Settings for Singularity Container
+[Singularity]
+
+#  Singularity instance related configuration
+# Database_instance_name=”placeholdername”
+# Singularity_definition_file_path = “path”
+## Folder which will be mapped to the containers data folder
+# InstanceDataFolder = “~/gangadir/data”
+
+# InstanceResponseWaitTime = 3000
+# ForceRestartOnNoResponse = “True”
+
+# DatabaseInstancePort = 6199 
+# DatabaseIstanceFallBackPort = 6200 
+# CacheInstancePort = 4040
+# CacheInstanceFallBackPort = 4041
+
+## If a user wishes to use a singularity container already running on the system which has the appropriate softwares. This will help reduce the total data usage.
+# use_custom_singularity_container = “False”
+# name_custom_singularity_container = “placeholdername”
+
+#=======================================================================
+
+
+
+Monitoring service for singularity containers.
+The monitoring service will be responsible for:
+Starting the container instance upon startup of the ganga process.
+Checking the status of the container, logging the important information and restarting the container in case of shutdown.
+Shutting down the container with shutting of the ganga process.
+Checking the status of current running jobs in all the ganga processes, if any job’s (which already exists in the database) status changes, the respective change will be made to the job’s information in the database. This will ensure that database always has the updated versions of jobs.
+Starting up the container will be done during the bootstraping phase of ganga
+
+options = ["--bind", f'~/gangadir/data':/data"]
+mongo_container = client.instance("docker://mongo", name="mongo", options=options, stream=True)
+
+
+
+Project Goals
+Objectives
+Add support in ganga to save/retrieve job metadata from database instances running inside of a singularity container.
+Add support for usage of cache databases, to allow efficient retrieval of data.
+Test the new database-based persistent storage.
+Tasks
+Create database system for use in persistent storage
+Design the model for data stored in the database.
+Implement data saving and retrieval.
+Implement functions to save job metadata in the database.
+Determine the most efficient way of converting job's metadata to string representation, allowing for efficient storage in the database.
+Develop a method to store the obtained string representation and save it in the database, using the database's apis.
+Integrate the conversion strategy and storing method.
+Implement functions to retrieve job metadata from the database.
+Determine the most efficient way of converting job's metadata, in string format, back to a ganga job object.
+Develop a method to retrieve a job's metadata from the database.
+Integrate the retrieval and type conversion.
+Test the new model on local backend
+Test the new database system by performing set conversions and checking for correct output.
+Perform tests for various corner cases that can arise.
+Implement error handling mechanism
+Intentional try to convert corrupted/incorrect job metadata to create proper logs and raise the appropriate errors.
+Write comprehensive documentation for the code written in Task 1.
+Create cache support for database
+Design a model for LRU based cache to store metadata information and prevent thrashing.
+Implement the cache handler in ganga.
+Test the cache for cases:
+retrieval of new data
+retrieval of data present in the cache
+retrieval of data just removed from cache
+Test the cache system.
+Write comprehensive documentation for the code written in Task 2.
+Combine Task 1 and Task 2
+Combine database system with cache
+Host the system using a singularity container, to allow easy installation of the system.
+Test the saving/retrieval of data from ganga process to database instance inside of singularity container.
+Deliverables
+Database, accompanied with a cache, system for persistent storage.
+Singularity container support, allowing to host the database and cache system.
+Test suite, complete with unit tests and integration tests catering to any added or new changes to codebase.
+Detailed documentation regarding the new model.
+Migration tool to help existing users to migrate to the new model.
+Timeline
+Duration
+Task
+March 31
+Deadline for submitting Project Proposal
+March 31 - April 27
+Application Review Period
+April 27 - May 18
+Official Community Bonding Period
+May 18 - June 12
+Official Coding Period Start Begin Task 1:
+
+
+June 12 - June 15
+Time period for any unexpected delay.
+ Finish Task 1
+June 15 - June 19
+Phase 1 evaluation 
+Submit git repository of Code with documentation for Task 1
+June 19 - July 10
+Begin Task 2 :
+
+
+July 10 - July 13
+Time period for any unexpected delay. 
+Finish Task 2
+July 13 - July 17
+Phase 2 evaluation
+ Submit git repository of Code with documentation for Task 2
+July 17 - August 7
+Begin Task 3 : Complete Integration 
+
+
+August 7 - August 10
+Phase 3 evaluation
+ Submit git repository of Code with documentation for Task 3
+August 10 - August 17
+Finish Task 3 Final Submission Submit git repository of final code with complete documentation.
+
+Additional Information Regarding Timeline
+The timeline gives a rough idea of my planned project work. Best efforts will be made to follow the proposed schedule. I believe that I will be able to achieve all the milestones for this as it aligns with my interest and trying to do something innovative.
+I’ve no other commitments during summer and hence, will be able to dedicate 48 hours to 60 hours a week. During the last month of the project, my college will begin and I’ll be denoting around 28-30 hours a week.
+Each week, time will be divided for implementation of features and documentation of these features. All the features and documentation will be written simultaneously (in the same week). I would like to spend weekdays on implementation and use weekends for testing, writing documentation and researching about the next weeks implementation.
+Weekends will be mostly dedicated to testing, bug fixing, and blog writing. Fortnightly blogs will be maintained at https://medium.com/@ratin.kumar.2k and will include highlights of the development process and also methods used to overcome hurdles.
+Working Schedule
+I’ll be working full-time on the code on weekdays. On weekends, I’ll be focusing on documentation, testing and bug fixing. My awake hours would usually be in between 6:30 AM IST (1:00 AM UTC) to 2 AM IST the next day (8:30 PM UTC) and I’m comfortable working anytime during this period but I can easily tune my working hours if circumstances ask for it. Except for a few days of traveling (which I’ll be informing in advance to my mentor), I’ll be having no other absences. In case of emergencies, I'll be informing my mentor.
+I'll be working from either my house or hostel, both places have access to good internet. I’m very flexible with my schedule and time zone variation (with my mentor) won’t be an issue. I’m comfortable with any form of communication that suits my mentor.
+Future Prospects:
+If selected I will continue to provide patches, bug fixes and support the project.
+References:
+This is a work in progress.
+GANGA Toolkit
+LHC
+GANGA GPI
+Pymongo, Mongodb
+Redis
+Singularity
+
+

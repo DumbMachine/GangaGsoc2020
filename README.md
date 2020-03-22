@@ -1,84 +1,102 @@
-Note: 
-- For instructions on how to run tests or functions refer : [readme.md](Readme.md).
-- For implementation details refer: [Project.md](Project.md)
-
-# Challenge for Ganga projects in GSoC 2020
-
-The challenge that forms part of the Ganga projects in GSoC is divided up into three pieces.
-
-1) A part that everybody should attempt that demonstrates the ability to do a basic job in Ganga and work with python
-2) A part that is related to the persistent storage project that require a demonstration of how you work with a model database from python.
-3) A part that is specific to the GUI project where you will be required to create a webserver that can demonstrate its interaction with Ganga in a simple manner.
-
-You are welcome to do all three parts, but if you are only interested in applying for the GUI project, you will not be disadvantaged by not attempting the one related to the persistent storage.
-
-## Setup
-Following the steps below will ensure that you can work freely on your project, can submit code through pushing it to GitHub but at the same time keep it private. Please avoid making your repository public as we want each student to work on this independently.
-
-- Create a fork of this repository which is private in GitHub
-- Give the GitHub users `egede`, `alexanderrichards`, `mesmith75` read access to your repository
-
-For performing actual work for the challenge, we suggest something like
+NOTE: If you wanna test that all the code is working, I recommend you to run the following:
 
 ```bash
-virtualenv -p python3 GSoC
-cd GSoC/
-. bin/activate
-pip install -e git+https://github.com/YOUR-GITHUB-USERNAME-HERE/GangaGSoC2020#egg=gangagsoc
+# Starting necessary docker containers
+$ sudo docker ps -q --filter "name=mongo" | grep -q . && sudo docker stop mongo && docker rm -fv mongo
+$ sudo docker run --name mongo -p 27017:27017 -d mongo
+$ cd tests
+$ pytest test_task1.py test_job.py test_task2.py
 ```
 
-Through the dependency, this will install Ganga as well such that you can work with it directly inside the virtualenv.
+This will run all the tests and ensure everything is working fine. Output would look something like:
 
-Communication is an important part of working in GSoC. Please just ask by email to all/any of the developers about anything that you are in doubt about. 
+![image-20200310114012690](assets/image-20200310114012690.png)
 
-## Completing challenge
-
-To complete the challenge you should push everything to the master branch of your forked repository. Then please send an email to us that you have finished. In the repository, we expect
-- That the `setup.py` file is updated with any extra `python` package dependencies that you may have introduced.
-- That there is a file `PROJECT.md` that documents what you have done and how we can test it.
-- That you have implemented tests of the code that can be tested with `pytest` to illustrate that everything works as expected.
-- That anything (like interaction with GUI), that can not easily be made to work with `pytest` is fully explained.
-
-## Ganga initial task
-
-As stated above everybody should attempt to complete this task
-
-1) Demonstrate that you can run a simple `Hello World` Ganga job that executes on a `Local` backend.
-2) Create a job in Ganga that demonstrates splitting a job into multiple pieces and then collates the results at the end.
-  - Use the included file `CERN.pdf`.
-  - In python, or through using system calls, split the pdf file into individual pages. 
-  - Create a job in Ganga that will count the number of occurences of the word "the" in the text of the PDF file. It should be counted whether it is capitalised or not. Make sure not to count other words with the same letters. So "The Ganga project is the best" should have a count of two, while "There is nothing here" should have a count of zero.
-  - Using the `ArgSplitter` create subjobs that each will count the occurences for a single page.
-  - Create a merger that adds up the number extracted from each page and places the total number into a file.
-  - Create test cases that demonstrate what you have done and that it is working. In the `test` directory you will find an example of a trivial test. All tests can be executed by `python -m unittest discover test "*.py"`, where `test` is the name of the directory. To make test that include Ganga objects, be inspired by tests in `ganga/GangaCore/test/GPI`.
-
-## Ganga persistent storage task
-
-1) Demonstrate that you can create a simple database where the server runs on the local machine. Demonstrate that you can read/write to the database from within python. The database backend has to be an open source solution but otherwise the choice of technology is up to you. Make sure to provide instructions on how to set up the database.
-2) Now take the Ganga Job object created in the first exercise and store this as a simple blob in the database. You might find the function `full_print(j)` (where `j` is a job object) that is available at the Ganga prompt useful for creating a full string representation of the job. Demonstrate that you can read the blob back and re-create a job object.
-3) Measure the performance of reading the blob from the database and re-create the job object a thousand times. Measure the time spent reading the blob from the database separately from the time it takes to recreate the job objects. The emphasis should be on that you can measure the times not on optimising how fast it is. 
-
-## Ganga GUI task
----
-
-1) For the first part of this task we will not need to use the Ganga framework at all, you will need to show the following:
-
- - Ability to create a simple webserver using a python based web framework of your choosing
- - Have the webserver render dynamic content using a templating engine (e.g. jinja2)
- - Modify the server to allow updating of the content either by making it a RESTful service (with ajax requests client side) or by utilising WebSockets.
+# Ganga persistent storage task
 
 
-(*__Note__ that the content for this task can be anything that you like and we would very much like to see you be as creative as possible with the actual design of the web page.*)
+1. Demonstrate that you can create a simple database where the server runs on the local machine. Demonstrate that you can read/write to the database from within python. The database backend has to be an open source solution but otherwise the choice of technology is up to you. Make sure to provide instructions on how to set up the database.
 
-2) For the second part we will introduce some of the Ganga framework:
+    **Solution**: To demonstrate the creation and usage (r/w) of database, make sure you have the following:
+           1. `docker` installed on your system.
+            2. `pymongo` python package. (`pip install pymongo`).
+            3. `singularity` installed on your system. (`this is optional, having docker would do the same`)
 
- - This time we want the website to be able to submit a simple Ganga job.
-   (*__Note__ we don't expect the job to be customisable at this stage, a simple button to submit a new job is all that is required.*)
- - This will mean that server side you will need to include the following code and have ganga as a dependency
- ```python
-import ganga.ganga
-from ganga import Job
-j = Job()
-j.submit()
-```
- - The server will have to monitor the status of the job and relay it back to the client in real time
+    Run the following:
+    ```bash
+    $ cd task2/2.1
+    $ bash task.sh
+    ```
+
+    The output would look like:
+
+    ![image-20200309203812990](assets/image-20200309203812990.png)
+
+2. Now take the Ganga Job object created in the first exercise and store this as a simple blob in the database. You might find the functions export and load that is available at the Ganga prompt useful. You can either use a file as an in-between point or you can look at how the export and load functions are implemented. You can find the code in https://github.com/ganga-devs/ganga/blob/develop/ganga/GangaCore/GPIDev/Persistency/__init__.py. Demonstrate that you can read the blob back and re-create a job object.
+
+    **Solution**: I have mentioned details about the implementation below. To display my ability to read the blob back and re-create a job object, refer to this `task2/2.2/read_write_job.py`.
+    
+    Here I have attached screenshot from running the script by 
+    
+    `ganga read_write_job.py`.
+    
+    ![image-20200309204101316](assets/image-20200309204101316.png)
+    
+3. Measure the performance of reading the blob from the database and  re-create the job object a thousand times. Measure the time spent reading the blob from the database separately from the time it takes to  recreate the job objects. The emphasis should be on that you can measure the times not on optimizing how fast it is.
+
+    **Solution**: I have used 3 methods here:
+
+    - `full_print` method: This method makes use of the `full_print` function provided in `ganga cli`. Below I have mentioned how the solution for this was implemented:
+      - Suppose we have a job `j`. 
+      - `POST Cycle`(sending job to db):
+        - `full_print(j)` will print the `j`'s string representation to the stdout.
+        - The output to stdout is captured and saved in a string.
+        - That string is then sent to the database with an identifier `jid`, job id.
+      - `GET Cycle`(retrieving from the db):
+        - The db is asked for a job using the `jid` identifier.
+        - The `string representation` of the `job` is stored in a string.
+      
+    - `export/load` method: This method makes use of the `export` and `load ` functions provided in the `ganga cli`.
+      
+      - Suppose we have a job `j`.
+      - `POST Cycle`(sending job to db):
+        - `export(j, <file_name>)`, this function call will write the `string_rep` of the job to file <file_name>. 
+        - I have written a function `custom_export`, which is the same function as the `export` function, but with a difference that instead of storing the `string_rep` to a file it returns it.
+        - Once `custom_export` functions gives the `string_rep` of the job, it is sent to the database.
+      - `GET Cycle`(getting job from db):
+        - `load(<filename>)` function call reads a job's `string_rep` to create a `GangaCore.GPIDev.Base.Proxy.Job` Object.
+        - I wrote a `custom_load` which, again, is the same as the one already implemented but with the difference of creating a `GangaCore.GPIDev.Base.Proxy.Job` Object from a `string_rep` variable.
+        - The db is asked for a job using the `jid` identifier and loaded using `custom_load`.
+      
+    - `from_file/to_file` method: This method uses the aforementioned functions from the VStreamer.py file:
+
+      - Much like the previous functions, I have made very small tweaks to make use of these functions to serve my purpose of :
+        - Taking a ganga `job` and converting it into its `string_rep` for better storage.
+        - Taking the `string_rep` and converting it back to ganga `job`.
+
+      **Running** the solution:
+
+      - `full_print`: To run this solution:
+
+        ```bash
+        # this bash file will start the docker containers for the required databases and call the stress test on them.
+        % bash full_print.sh
+        ```
+
+      - `export/load`: To run this solution:
+
+        ```bash
+        # this bash file will start the docker containers for the required databases and call the stress test on them.
+        % bash export_load.sh
+        ```
+
+      - `from_file/to_file`: To run this solution:
+
+        ```bash
+        # this bash file will start the docker containers for the required databases and call the stress test on them.
+        % bash xml_way.sh
+        ```
+
+This file is already long, I have attached some of the images, plots and other explanation to Project.md
+
+ 

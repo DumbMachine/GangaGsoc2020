@@ -128,7 +128,7 @@ def stress_test(iterations=1000, sleep=0):
             itr_time['get_job'] = (time.time() - itr_time['store_job']) - st
             itr_time['total_time'] = time.time() - st
             times.append(list(itr_time.values()))
-            assert db_job == job
+# assert db_job == job
             progress.update(1)
 
     import matplotlib.pyplot as plt
