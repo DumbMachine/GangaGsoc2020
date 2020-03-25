@@ -1,5 +1,12 @@
 NOTE: If you wanna test that all the code is working, I recommend you to run the following:
 
+For:
+
+1. Implementation details refer to [Project.md](./Project.md).
+2. For information of Qualification task refer to this document.
+3. For plots from benchmarking refer to [Benchmark.md](./benchmakr.md).
+4. For examples of job formats refer to [Format.md](proposal_related/format_differences.md)
+
 ```bash
 # Starting necessary docker containers
 $ sudo docker ps -q --filter "name=mongo" | grep -q . && sudo docker stop mongo && docker rm -fv mongo
