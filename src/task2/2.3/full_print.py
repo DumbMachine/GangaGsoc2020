@@ -110,10 +110,13 @@ def stress_test(iterations=1000, sleep=0):
     import matplotlib.pyplot as plt
     import matplotlib
     import numpy as np
+    times = times[100:]
     plt.plot([i[0] for i in times], "-b", label="store_job")
     plt.plot([i[1] for i in times], "-r", label="get_job")
     plt.plot([i[2] for i in times], "-g", label="total_time")
-    plt.yticks(np.arange(0, np.max(times), step=0.05))
+    # plt.yticks(np.arange(0, np.max(times), step=0.05))
+    plt.yticks(np.arange(0, np.max(times), step=0.008))
+    plt.ylim(0, 0.025)
     plt.title("Full Print Method")
     plt.xlabel("iteration")
     plt.ylabel("time (in seconds)")
@@ -123,18 +126,6 @@ def stress_test(iterations=1000, sleep=0):
     plt.savefig(f'data/mongo-method-full_print-{iterations}-time_interval-{sleep}.png')
     plt.clf()
 
-    bad_idxs = np.where(times > 3)
-    plt.plot([i[0] for i in times[2:]], "-b", label="store_job")
-    plt.plot([i[1] for i in times[2:]], "-r", label="get_job")
-    plt.plot([i[2] for i in times[2:]], "-g", label="total_time")
-    plt.yticks(np.arange(0, np.max(times), step=0.08))
-    plt.title("Full Print Method")
-    plt.xlabel("iteration")
-    plt.ylabel("time (in seconds)")
-    plt.legend(loc="best")
-    fig = matplotlib.pyplot.gcf()
-    fig.set_size_inches(8,8)
-    plt.savefig(f'data/[modded]mongo-method-full_print-{iterations}-time_interval-{sleep}.png', dpi=100)
 
 
 # stress_test()

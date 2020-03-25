@@ -101,6 +101,7 @@ def stress_test(iterations=1000, sleep=0):
     plt.plot([i[1] for i in times], "-r", label="get_job")
     plt.plot([i[2] for i in times], "-g", label="total_time")
     plt.yticks(np.arange(0, np.max(times), step=0.008))
+    plt.ylim(0, 0.025)
     plt.title("Xml Method")
     plt.xlabel("iteration")
     plt.ylabel("time (in seconds)")

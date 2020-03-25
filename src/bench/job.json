@@ -1,0 +1,206 @@
+{
+    "outputsandbox": [],
+    "comment": "",
+    "id": 8,
+    "status": "",
+    "name": "",
+    "inputdir": "/home/needshelp/gangadir/workspace/needshelp/LocalXML/8/input/",
+    "outputdir": "/home/needshelp/gangadir/workspace/needshelp/LocalXML/8/output/",
+    "do_auto_resubmit": "False",
+    "parallel_submit": "True",
+    "inputsandbox": [],
+    "info": {
+        "submit_counter": 0,
+        "uuid": "",
+        "monitoring_links": [],
+        "monitor": "None"
+    },
+    "time": {
+        "new": "2020/03/18 07:53:55",
+        "backend_running": "2020/03/18 07:53:58",
+        "running": "2020/03/18 07:53:58",
+        "submitted": "2020/03/18 07:53:58",
+        "submitting": "2020/03/18 07:53:58"
+    },
+    "application": {
+        "exe": {
+            "name": "count-word.sh",
+            "subdir": "."
+        },
+        "args": [
+            "page0.pdf",
+            "page1.pdf",
+            "page2.pdf",
+            "page3.pdf",
+            "page4.pdf",
+            "page5.pdf",
+            "page6.pdf",
+            "page7.pdf",
+            "page8.pdf",
+            "page9.pdf",
+            "page10.pdf",
+            "page11.pdf"
+        ],
+        "env": "{}",
+        "platform": "ANY",
+        "is_prepared": {
+            "name": "conf-e5d9209c-0775-453c-a73d-fabc213b1885",
+            "subdir": ".",
+            "associated_files": {
+                "_list": [],
+                "_is_preparable": "False"
+            }
+        },
+        "hash": "3ee875b5e35c98a78ffdc9b49f0bfd05"
+    },
+    "backend": {
+        "id": -1,
+        "exitcode": "None",
+        "workdir": "",
+        "actualCE": "",
+        "nice": 0,
+        "wrapper_pid": -1,
+        "force_parallel": "False"
+    },
+    "inputfiles": [
+        {
+            "localDir": "",
+            "subfiles": "",
+            "compressed": "False",
+            "namePattern": "page0.pdf"
+        },
+        {
+            "localDir": "",
+            "subfiles": "",
+            "compressed": "False",
+            "namePattern": "page1.pdf"
+        },
+        {
+            "localDir": "",
+            "subfiles": "",
+            "compressed": "False",
+            "namePattern": "page2.pdf"
+        },
+        {
+            "localDir": "",
+            "subfiles": "",
+            "compressed": "False",
+            "namePattern": "page3.pdf"
+        },
+        {
+            "localDir": "",
+            "subfiles": "",
+            "compressed": "False",
+            "namePattern": "page4.pdf"
+        },
+        {
+            "localDir": "",
+            "subfiles": "",
+            "compressed": "False",
+            "namePattern": "page5.pdf"
+        },
+        {
+            "localDir": "",
+            "subfiles": "",
+            "compressed": "False",
+            "namePattern": "page6.pdf"
+        },
+        {
+            "localDir": "",
+            "subfiles": "",
+            "compressed": "False",
+            "namePattern": "page7.pdf"
+        },
+        {
+            "localDir": "",
+            "subfiles": "",
+            "compressed": "False",
+            "namePattern": "page8.pdf"
+        },
+        {
+            "localDir": "",
+            "subfiles": "",
+            "compressed": "False",
+            "namePattern": "page9.pdf"
+        },
+        {
+            "localDir": "",
+            "subfiles": "",
+            "compressed": "False",
+            "namePattern": "page10.pdf"
+        },
+        {
+            "localDir": "",
+            "subfiles": "",
+            "compressed": "False",
+            "namePattern": "page11.pdf"
+        }
+    ],
+    "outputfiles": {
+        "localDir": "",
+        "subfiles": "",
+        "compressed": "False",
+        "namePattern": "result.txt"
+    },
+    "non_copyable_outputfiles": "",
+    "inputdata": "None",
+    "outputdata": "None",
+    "splitter": {
+        "args": [
+            {
+                "_list": "page0.pdf",
+                "_is_preparable": "False"
+            },
+            {
+                "_list": "page1.pdf",
+                "_is_preparable": "False"
+            },
+            {
+                "_list": "page2.pdf",
+                "_is_preparable": "False"
+            },
+            {
+                "_list": "page3.pdf",
+                "_is_preparable": "False"
+            },
+            {
+                "_list": "page4.pdf",
+                "_is_preparable": "False"
+            },
+            {
+                "_list": "page5.pdf",
+                "_is_preparable": "False"
+            },
+            {
+                "_list": "page6.pdf",
+                "_is_preparable": "False"
+            },
+            {
+                "_list": "page7.pdf",
+                "_is_preparable": "False"
+            },
+            {
+                "_list": "page8.pdf",
+                "_is_preparable": "False"
+            },
+            {
+                "_list": "page9.pdf",
+                "_is_preparable": "False"
+            },
+            {
+                "_list": "page10.pdf",
+                "_is_preparable": "False"
+            },
+            {
+                "_list": "page11.pdf",
+                "_is_preparable": "False"
+            }
+        ]
+    },
+    "subjobs": "Registry Slice: jobs(8).subjobs (0 objects)",
+    "postprocessors": [
+        "MultiPostProcessor"
+    ],
+    "virtualization": "None",
+    "metadata": {}
+}
